@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.stream.IntStream;
 
-public class Line {
+public class Line implements Geometry {
   private final Point start;
   private final Point end;
 
