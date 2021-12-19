@@ -1,4 +1,3 @@
-import com.github.stefanbirkner.systemlambda.Statement;
 import org.jetbrains.annotations.NotNull;
 
 public class Command {
@@ -12,10 +11,14 @@ public class Command {
     System.out.print("enter command: ");
   }
 
-  public void input(@NotNull String command) {
-    switch (command.charAt(0)) {
-      case CREATE_CANVAS -> {
-      }
+  public Canvas input(@NotNull String command) throws Exception {
+    try {
+      switch (command.charAt(0)) {
+        case CREATE_CANVAS -> {
+          String[] params = command.split(" ");
+          if (params.length != 3) throw new Exception("Not correct params number");
+          return new Canvas(Integer.parseInt(params[1]), Integer.parseInt(params[2]));
+        }
 
 //      case LINE: {
 //        break;
@@ -26,9 +29,14 @@ public class Command {
 //      case FILL: {
 //        break;
 //      }
-      case QUIT -> System.exit(0);
-      default -> System.err.println("Incorrect command");
+        case QUIT -> System.exit(0);
+        default -> System.err.println("Incorrect command");
+      }
+      return new Canvas(3, 3);
+    } catch (Exception e) {
+      System.err.println(e.getMessage());
+//      System.err.println("Incorrect command");
     }
+    return new Canvas(3, 3);
   }
-
 }
