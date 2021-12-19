@@ -50,7 +50,7 @@ public class CommandTest {
 
     // Case 4
     actualErrMessage = tapSystemErr(() -> command.input("C -3 50 3", null));
-    assert actualErrMessage.contains("Not correct params number");
+    assert actualErrMessage.contains("Not correct params amount");
   }
 
   @Test
@@ -92,8 +92,6 @@ public class CommandTest {
     for (char[] e : expectedResult2) Arrays.fill(e, Canvas.EMPTY);
     IntStream.range(0, 5).forEach(i -> expectedResult2[i][1] = 'x');
     IntStream.range(1, 4).forEach(i -> expectedResult2[1][i] = 'x');
-    System.out.println(Arrays.deepToString(actualResult2.getContent()));
-    System.out.println(Arrays.deepToString(expectedResult2));
     assert Arrays.deepEquals(actualResult2.getContent(), expectedResult2);
 
     // Case 3: Out of boundary
@@ -103,6 +101,84 @@ public class CommandTest {
       command.input(testInput, inputCanvas);
     } catch (Exception e) {
       assert e.getMessage().equals("This line cannot be added into this canvas");
+    }
+  }
+
+  @Test
+  void enterRectangleCommand() throws Exception {
+    // Setup canvas
+    String testInput;
+    Canvas inputCanvas;
+
+    /*
+     Case 1: Draw 1 line
+     -------
+     |xxxx_|
+     |x__x_|
+     |x__x_|
+     |xxxx_|
+     |_____|
+     -------
+    */
+    inputCanvas = new Canvas(5, 5);
+    testInput = "R 1 1 4 4";
+    Canvas actualResult1 = command.input(testInput, inputCanvas);
+    char[][] expectedResult1 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
+    for (char[] e : expectedResult1) Arrays.fill(e, Canvas.EMPTY);
+    IntStream.range(0, 4).forEach(i -> {
+      expectedResult1[i][0] = 'x';
+      expectedResult1[i][3] = 'x';
+    });
+    IntStream.range(1, 3).forEach(i -> {
+      expectedResult1[0][i] = 'x';
+      expectedResult1[3][i] = 'x';
+    });
+    assert Arrays.deepEquals(actualResult1.getContent(), expectedResult1);
+
+    /*
+     Case 2: Draw 2 rectangle
+     ---------
+     |xxxx___|
+     |x__x___|
+     |x_xxxx_|
+     |xxxx_x_|
+     |__x__x_|
+     |__x__x_|
+     |__xxxx_|
+     ---------
+    */
+    inputCanvas = new Canvas(7, 7);
+    testInput = "R 1 1 4 4";
+    Canvas actualResult2 = command.input(testInput, inputCanvas);
+    testInput = "R 3 3 6 7";
+    actualResult2 = command.input(testInput, actualResult2);
+    char[][] expectedResult2 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
+    for (char[] e : expectedResult2) Arrays.fill(e, Canvas.EMPTY);
+    IntStream.range(0, 4).forEach(i -> {
+      expectedResult2[i][0] = 'x';
+      expectedResult2[i][3] = 'x';
+    });
+    IntStream.range(1, 3).forEach(i -> {
+      expectedResult2[0][i] = 'x';
+      expectedResult2[3][i] = 'x';
+    });
+    IntStream.range(2, 7).forEach(i -> {
+      expectedResult2[i][2] = 'x';
+      expectedResult2[i][5] = 'x';
+    });
+    IntStream.range(3, 5).forEach(i -> {
+      expectedResult2[2][i] = 'x';
+      expectedResult2[6][i] = 'x';
+    });
+    assert Arrays.deepEquals(actualResult2.getContent(), expectedResult2);
+
+    // Case 3: Out of boundary
+    inputCanvas = new Canvas(5, 5);
+    testInput = "R 2 1 2 10";
+    try {
+      command.input(testInput, inputCanvas);
+    } catch (Exception e) {
+      assert e.getMessage().equals("This rectangle cannot be added into this canvas");
     }
   }
 }
