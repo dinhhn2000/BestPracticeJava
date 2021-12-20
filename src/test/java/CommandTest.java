@@ -181,4 +181,41 @@ public class CommandTest {
       assert e.getMessage().equals("This rectangle cannot be added into this canvas");
     }
   }
+
+  @Test
+  void enterBucketCommand() throws Exception {
+// Setup canvas
+    String testInput;
+    Canvas inputCanvas;
+
+    /*
+     Case 1: Fill inside rectangle
+     -------
+     |xxxx_|
+     |xccx_|
+     |xccx_|
+     |xxxx_|
+     |_____|
+     -------
+    */
+    inputCanvas = new Canvas(5, 5);
+    testInput = "R 1 1 4 4";
+    Canvas actualResult1 = command.input(testInput, inputCanvas);
+    testInput = "B 2 2 r";
+    actualResult1 = command.input(testInput, actualResult1);
+
+    char[][] expectedResult1 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
+    for (char[] e : expectedResult1) Arrays.fill(e, Canvas.EMPTY);
+    IntStream.range(0, 4).forEach(i -> {
+      expectedResult1[i][0] = 'x';
+      expectedResult1[i][3] = 'x';
+    });
+    IntStream.range(1, 3).forEach(i -> {
+      expectedResult1[0][i] = 'x';
+      expectedResult1[3][i] = 'x';
+    });
+    expectedResult1[1][1] = expectedResult1[1][2] = expectedResult1[2][1] = expectedResult1[2][2] = 'r';
+    System.out.println(Arrays.deepToString(actualResult1.getContent()));
+    assert Arrays.deepEquals(actualResult1.getContent(), expectedResult1);
+  }
 }

@@ -8,7 +8,7 @@ public class Canvas {
 
   public Canvas(int w, int h) throws Exception {
     if (w <= 0 || h <= 0) throw new Exception("Invalid width or height");
-    body = new char[w][h];
+    body = new char[h][w];
     for (char[] e : body) Arrays.fill(e, EMPTY);
   }
 

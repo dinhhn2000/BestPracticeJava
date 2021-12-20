@@ -11,7 +11,7 @@ public class Command {
     System.out.print("enter command: ");
   }
 
-  public Canvas input(@NotNull String command, Canvas canvas) throws Exception {
+  public Canvas input(@NotNull String command, Canvas canvas) {
     try {
       String[] params = command.split(" ");
       switch (command.charAt(0)) {
@@ -47,6 +47,6 @@ public class Command {
     } catch (Exception e) {
       System.err.println(e.getMessage());
     }
-    return new Canvas(3, 3);
+    return null;
   }
 }
