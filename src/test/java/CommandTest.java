@@ -1,3 +1,5 @@
+import Interface.Canvas;
+import Interface.Command;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -184,7 +186,7 @@ public class CommandTest {
 
   @Test
   void enterBucketCommand() throws Exception {
-// Setup canvas
+    // Setup canvas
     String testInput;
     Canvas inputCanvas;
 

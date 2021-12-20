@@ -1,7 +1,9 @@
+package Dimension;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
-public class Rectangle implements Geometry {
+public class Rectangle extends Geometry {
   private final Point topLeft;
   private final Point topRight;
   private final Point bottomLeft;
@@ -16,6 +18,7 @@ public class Rectangle implements Geometry {
     bottomRight = br;
     topRight = new Point(bottomRight.getX(), topLeft.getY());
     bottomLeft = new Point(topLeft.getX(), bottomRight.getY());
+    setType(Geometry.RECTANGLE);
   }
 
   public Point getTopLeft() {

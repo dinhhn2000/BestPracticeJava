@@ -1,8 +1,10 @@
+package Dimension;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.stream.IntStream;
 
-public class Line implements Geometry {
+public class Line extends Geometry {
   private final Point start;
   private final Point end;
 
@@ -12,6 +14,7 @@ public class Line implements Geometry {
     if (s.getX() == e.getX() && s.getY() == e.getY()) throw new InputMismatchException("This line does not exist");
     start = s;
     end = e;
+    setType(Geometry.LINE);
   }
 
   public Point getStart() {

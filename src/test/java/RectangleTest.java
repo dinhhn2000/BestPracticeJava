@@ -1,3 +1,5 @@
+import Dimension.Point;
+import Dimension.Rectangle;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

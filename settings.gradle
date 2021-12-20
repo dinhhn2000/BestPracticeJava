@@ -1,2 +1,3 @@
 rootProject.name = 'Practice Java'
+include 'Tool'
 

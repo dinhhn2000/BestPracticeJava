@@ -1,4 +1,10 @@
-import org.jetbrains.annotations.NotNull;
+package Interface;
+
+import Dimension.Line;
+import Dimension.Point;
+import Dimension.Rectangle;
+import DrawingTool.Brush;
+import DrawingTool.Tool;
 
 public class Command {
   private static final char QUIT = 'Q';
@@ -11,9 +17,10 @@ public class Command {
     System.out.print("enter command: ");
   }
 
-  public Canvas input(@NotNull String command, Canvas canvas) {
+  public Canvas input(String command, Canvas canvas) {
     try {
       String[] params = command.split(" ");
+      Tool tool;
       switch (command.charAt(0)) {
         case CREATE_CANVAS -> {
           // Ex: C 20 4
@@ -25,16 +32,16 @@ public class Command {
           if (params.length != 5) throw new Exception("Not correct params amount");
           Point start = new Point(Integer.parseInt(params[1]), Integer.parseInt(params[2]));
           Point end = new Point(Integer.parseInt(params[3]), Integer.parseInt(params[4]));
-          canvas.addLine(new Line(start, end));
-          return canvas;
+          tool = new Brush();
+          return tool.draw(canvas, new Line(start, end));
         }
         case RECTANGLE -> {
           // Ex: R 14 1 18 3
           if (params.length != 5) throw new Exception("Not correct params amount");
           Point tl = new Point(Integer.parseInt(params[1]), Integer.parseInt(params[2]));
           Point br = new Point(Integer.parseInt(params[3]), Integer.parseInt(params[4]));
-          canvas.addRectangle(new Rectangle(tl, br));
-          return canvas;
+          tool = new Brush();
+          return tool.draw(canvas, new Rectangle(tl, br));
         }
         case FILL -> {
           // Ex: B 10 3 o

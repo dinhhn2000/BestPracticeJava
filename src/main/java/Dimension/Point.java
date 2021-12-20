@@ -1,3 +1,5 @@
+package Dimension;
+
 import java.util.InputMismatchException;
 
 public class Point {
