@@ -3,7 +3,6 @@ import Interface.Command;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.*;
 
@@ -24,9 +23,12 @@ public class CommandTest {
   }
 
   @Test
-  void enterInvalidCommand() throws Exception {
-    String actualMessage = tapSystemErr(() -> command.input("INVALID_COMMAND", null));
-    assert actualMessage.contains("Incorrect command");
+  void enterInvalidCommand() {
+    try {
+      command.input("INVALID_COMMAND", null);
+    } catch (Exception e) {
+      assert e.getMessage().equals("Incorrect command");
+    }
   }
 
   @Test
@@ -40,8 +42,12 @@ public class CommandTest {
     assert actualResult.getHeight() == 4;
 
     // Case 2
-    String actualErrMessage = tapSystemErr(() -> command.input("C 0 -3", null));
-    assert actualErrMessage.contains("Invalid width or height");
+    testInput = "C 0 -3";
+    try {
+      command.input(testInput, null);
+    } catch (Exception e) {
+      assert e.getMessage().equals("Invalid width or height");
+    }
 
 
     // Case 3
@@ -51,8 +57,12 @@ public class CommandTest {
     assert actualResult.getHeight() == 7;
 
     // Case 4
-    actualErrMessage = tapSystemErr(() -> command.input("C -3 50 3", null));
-    assert actualErrMessage.contains("Not correct params amount");
+    testInput = "C -3 50 3";
+    try {
+      command.input(testInput, null);
+    } catch (Exception e) {
+      assert e.getMessage().equals("Not correct params amount");
+    }
   }
 
   @Test
@@ -72,9 +82,7 @@ public class CommandTest {
     inputCanvas = new Canvas(5, 5);
     testInput = "L 1 1 1 4";
     Canvas actualResult1 = command.input(testInput, inputCanvas);
-    char[][] expectedResult1 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
-    for (char[] e : expectedResult1) Arrays.fill(e, Canvas.EMPTY);
-    IntStream.range(0, 4).forEach(i -> expectedResult1[i][0] = 'x');
+    char[][] expectedResult1 = new char[][]{{'x', ' ', ' ', ' ', ' '}, {'x', ' ', ' ', ' ', ' '}, {'x', ' ', ' ', ' ', ' '}, {'x', ' ', ' ', ' ', ' '}, {' ', ' ', ' ', ' ', ' '}};
     assert Arrays.deepEquals(actualResult1.getContent(), expectedResult1);
 
     // Case 2: Draw 2 lines
@@ -90,10 +98,7 @@ public class CommandTest {
     Canvas actualResult2 = command.input(testInput, inputCanvas);
     testInput = "L 2 2 4 2";
     actualResult2 = command.input(testInput, actualResult2);
-    char[][] expectedResult2 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
-    for (char[] e : expectedResult2) Arrays.fill(e, Canvas.EMPTY);
-    IntStream.range(0, 5).forEach(i -> expectedResult2[i][1] = 'x');
-    IntStream.range(1, 4).forEach(i -> expectedResult2[1][i] = 'x');
+    char[][] expectedResult2 = new char[][]{{' ', 'x', ' ', ' ', ' '}, {' ', 'x', 'x', 'x', ' '}, {' ', 'x', ' ', ' ', ' '}, {' ', 'x', ' ', ' ', ' '}, {' ', 'x', ' ', ' ', ' '}};
     assert Arrays.deepEquals(actualResult2.getContent(), expectedResult2);
 
     // Case 3: Out of boundary
@@ -125,16 +130,7 @@ public class CommandTest {
     inputCanvas = new Canvas(5, 5);
     testInput = "R 1 1 4 4";
     Canvas actualResult1 = command.input(testInput, inputCanvas);
-    char[][] expectedResult1 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
-    for (char[] e : expectedResult1) Arrays.fill(e, Canvas.EMPTY);
-    IntStream.range(0, 4).forEach(i -> {
-      expectedResult1[i][0] = 'x';
-      expectedResult1[i][3] = 'x';
-    });
-    IntStream.range(1, 3).forEach(i -> {
-      expectedResult1[0][i] = 'x';
-      expectedResult1[3][i] = 'x';
-    });
+    char[][] expectedResult1 = new char[][]{{'x', 'x', 'x', 'x', ' '}, {'x', ' ', ' ', 'x', ' '}, {'x', ' ', ' ', 'x', ' '}, {'x', 'x', 'x', 'x', ' '}, {' ', ' ', ' ', ' ', ' '}};
     assert Arrays.deepEquals(actualResult1.getContent(), expectedResult1);
 
     /*
@@ -154,29 +150,13 @@ public class CommandTest {
     Canvas actualResult2 = command.input(testInput, inputCanvas);
     testInput = "R 3 3 6 7";
     actualResult2 = command.input(testInput, actualResult2);
-    char[][] expectedResult2 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
-    for (char[] e : expectedResult2) Arrays.fill(e, Canvas.EMPTY);
-    IntStream.range(0, 4).forEach(i -> {
-      expectedResult2[i][0] = 'x';
-      expectedResult2[i][3] = 'x';
-    });
-    IntStream.range(1, 3).forEach(i -> {
-      expectedResult2[0][i] = 'x';
-      expectedResult2[3][i] = 'x';
-    });
-    IntStream.range(2, 7).forEach(i -> {
-      expectedResult2[i][2] = 'x';
-      expectedResult2[i][5] = 'x';
-    });
-    IntStream.range(3, 5).forEach(i -> {
-      expectedResult2[2][i] = 'x';
-      expectedResult2[6][i] = 'x';
-    });
+
+    char[][] expectedResult2 = new char[][]{{'x', 'x', 'x', 'x', ' ', ' ', ' '}, {'x', ' ', ' ', 'x', ' ', ' ', ' '}, {'x', ' ', 'x', 'x', 'x', 'x', ' '}, {'x', 'x', 'x', 'x', ' ', 'x', ' '}, {' ', ' ', 'x', ' ', ' ', 'x', ' '}, {' ', ' ', 'x', ' ', ' ', 'x', ' '}, {' ', ' ', 'x', 'x', 'x', 'x', ' '}};
     assert Arrays.deepEquals(actualResult2.getContent(), expectedResult2);
 
     // Case 3: Out of boundary
     inputCanvas = new Canvas(5, 5);
-    testInput = "R 2 1 2 10";
+    testInput = "R 2 1 10 10";
     try {
       command.input(testInput, inputCanvas);
     } catch (Exception e) {
@@ -194,8 +174,8 @@ public class CommandTest {
      Case 1: Fill inside rectangle
      -------
      |xxxx_|
-     |xccx_|
-     |xccx_|
+     |xrrx_|
+     |xrrx_|
      |xxxx_|
      |_____|
      -------
@@ -206,18 +186,38 @@ public class CommandTest {
     testInput = "B 2 2 r";
     actualResult1 = command.input(testInput, actualResult1);
 
-    char[][] expectedResult1 = new char[inputCanvas.getHeight()][inputCanvas.getWidth()];
-    for (char[] e : expectedResult1) Arrays.fill(e, Canvas.EMPTY);
-    IntStream.range(0, 4).forEach(i -> {
-      expectedResult1[i][0] = 'x';
-      expectedResult1[i][3] = 'x';
-    });
-    IntStream.range(1, 3).forEach(i -> {
-      expectedResult1[0][i] = 'x';
-      expectedResult1[3][i] = 'x';
-    });
-    expectedResult1[1][1] = expectedResult1[1][2] = expectedResult1[2][1] = expectedResult1[2][2] = 'r';
-    System.out.println(Arrays.deepToString(actualResult1.getContent()));
+    char[][] expectedResult1 = new char[][]{{'x', 'x', 'x', 'x', ' '}, {'x', 'r', 'r', 'x', ' '}, {'x', 'r', 'r', 'x', ' '}, {'x', 'x', 'x', 'x', ' '}, {' ', ' ', ' ', ' ', ' '}};
     assert Arrays.deepEquals(actualResult1.getContent(), expectedResult1);
+
+    /*
+     Case 2: Fill inside & outside rectangle
+     -------
+     |xxxxo|
+     |xrrxo|
+     |xxxxo|
+     |ooooo|
+     |ooooo|
+     -------
+    */
+    inputCanvas = new Canvas(5, 5);
+    testInput = "R 1 1 4 3";
+    Canvas actualResult2 = command.input(testInput, inputCanvas);
+    testInput = "B 2 2 r";
+    actualResult2 = command.input(testInput, actualResult2);
+    testInput = "B 5 5 o";
+    actualResult2 = command.input(testInput, actualResult2);
+
+    char[][] expectedResult2 = new char[][]{{'x', 'x', 'x', 'x', 'o'}, {'x', 'r', 'r', 'x', 'o'}, {'x', 'x', 'x', 'x', 'o'}, {'o', 'o', 'o', 'o', 'o'}, {'o', 'o', 'o', 'o', 'o'}};
+    assert Arrays.deepEquals(actualResult2.getContent(), expectedResult2);
+
+    // Case 3: Out of boundary
+    inputCanvas = new Canvas(5, 5);
+    testInput = "B 10 1 c";
+    try {
+      command.input(testInput, inputCanvas);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      assert e.getMessage().equals("This point is not inside the canvas");
+    }
   }
 }
