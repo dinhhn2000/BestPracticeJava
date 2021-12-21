@@ -10,4 +10,8 @@ public abstract class Tool {
   public void setColor(char newColor) {
     color = newColor;
   }
+
+  public static char getColor() {
+    return color;
+  }
 }
