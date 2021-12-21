@@ -9,6 +9,7 @@ public class Brush extends Tool {
   @Override
   public Canvas draw(Canvas canvas, Object obj) throws Exception {
     Geometry geometry = (Geometry) obj;
+    setColor('x');
     switch (geometry.getType()) {
       case Geometry.LINE -> {
         return drawLine(canvas, (Line) geometry);
@@ -26,7 +27,7 @@ public class Brush extends Tool {
       throw new Exception("This line cannot be added into this canvas");
 
     // Process add line
-    return canvas.drawing(line.getAllPoints());
+    return canvas.drawing(line.getAllPoints(), getColor());
   }
 
   private Canvas drawRectangle(Canvas canvas, Rectangle rectangle) throws Exception {
@@ -35,6 +36,6 @@ public class Brush extends Tool {
       throw new Exception("This rectangle cannot be added into this canvas");
 
     // Process add rectangle
-    return canvas.drawing(rectangle.getAllPoints());
+    return canvas.drawing(rectangle.getAllPoints(), getColor());
   }
 }
