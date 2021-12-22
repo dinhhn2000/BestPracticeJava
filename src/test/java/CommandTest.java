@@ -10,8 +10,8 @@ public class CommandTest {
   Command command = new Command();
 
   @Test
-  void initCommand() throws Exception {
-    String actualMessage = tapSystemOut(Command::new);
+  void greetingMessageTest() throws Exception {
+    String actualMessage = tapSystemOut(() -> command.printGreetingMessage());
     String expectedMessage = "enter command: ";
     assert actualMessage.contains(expectedMessage);
   }
