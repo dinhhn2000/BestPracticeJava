@@ -17,7 +17,7 @@ public class Brush extends Tool {
       case Geometry.RECTANGLE -> {
         return drawRectangle(canvas, (Rectangle) geometry);
       }
-      default -> throw new IllegalStateException("Unexpected value: " + geometry.getType());
+      default -> throw new Exception("Not exist geometry type: " + geometry.getType());
     }
   }
 
