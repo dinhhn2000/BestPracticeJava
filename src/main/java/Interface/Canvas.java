@@ -39,4 +39,17 @@ public class Canvas {
     allPoints.forEach(p -> content[p.getY() - 1][p.getX() - 1] = color);
     return this;
   }
+
+  public void render() {
+    StringBuilder result = new StringBuilder();
+    // Top border
+    result.append("-".repeat(content[0].length + 2)).append('\n');
+    for (char[] chars : content) {
+      // Left border + Content + Right border
+      result.append("|").append(new String(chars)).append("|").append("\n");
+    }
+    // Bottom border
+    result.append("-".repeat(content[0].length + 2)).append('\n');
+    System.out.println(result);
+  }
 }
