@@ -5,6 +5,7 @@ import Dimension.Point;
 import Dimension.Rectangle;
 import DrawingTool.Brush;
 import DrawingTool.Bucket;
+import DrawingTool.ColorPicker;
 import DrawingTool.Tool;
 import Utils.Helpers;
 
@@ -64,12 +65,11 @@ public class Command {
         case FILL -> {
           // Ex: B 10 3 o
           params = getParamsAndValidate(command, 4);
-          tool = new Bucket();
-          tool.setColor(params[3].charAt(0));
+          ColorPicker.setColor(params[3].charAt(0));
           int x = Helpers.convertStringToInteger(params[1]);
           int y = Helpers.convertStringToInteger(params[2]);
-          tool.draw(canvas, new Point(x, y));
-          return canvas;
+          tool = new Bucket();
+          return tool.draw(canvas, new Point(x, y));
         }
         case QUIT -> System.exit(0);
         default -> System.err.println("Incorrect command");

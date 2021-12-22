@@ -11,7 +11,6 @@ public class Bucket extends Tool {
 
     // Recursive paint
     char[][] canvasContent = canvas.getContent();
-    char color = Tool.getColor();
     char initColor = canvasContent[p.getY() - 1][p.getX() - 1];
     Fill(canvasContent, p.getX() - 1, p.getY() - 1, color, initColor);
     canvas.setContent(canvasContent);
