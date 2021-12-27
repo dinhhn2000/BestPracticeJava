@@ -1,11 +1,13 @@
+package DimensionTest;
+
 import Dimension.Point;
 import org.junit.jupiter.api.Test;
 
 import java.util.InputMismatchException;
 
-class PointTest {
+public class PointTest {
   @Test
-  void initPoint() {
+  public void initPoint() {
     // Success case
     int x = 1;
     int y = 5;

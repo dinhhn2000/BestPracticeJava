@@ -1,9 +1,11 @@
+package UtilsTest;
+
 import Utils.Helpers;
 import org.junit.jupiter.api.Test;
 
 public class HelperTest {
   @Test
-  void convertInvalidStringToInteger() {
+  public void convertInvalidStringToInteger() {
     String input = "INVALID";
     try {
       Helpers.convertStringToInteger(input);

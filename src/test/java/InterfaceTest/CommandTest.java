@@ -1,29 +1,32 @@
+package InterfaceTest;
+
 import Interface.Canvas;
 import Interface.Command;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static com.github.stefanbirkner.systemlambda.SystemLambda.*;
+import static com.github.stefanbirkner.systemlambda.SystemLambda.catchSystemExit;
+import static com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut;
 
 public class CommandTest {
   Command command = new Command();
 
   @Test
-  void greetingMessageTest() throws Exception {
+  public void greetingMessageTest() throws Exception {
     String actualMessage = tapSystemOut(() -> command.printGreetingMessage());
     String expectedMessage = "enter command: ";
     assert actualMessage.contains(expectedMessage);
   }
 
   @Test
-  void enterQuitCommand() throws Exception {
+  public void enterQuitCommand() throws Exception {
     int statusCode = catchSystemExit(() -> command.input("Q", null));
     assert statusCode == 0;
   }
 
   @Test
-  void enterInvalidCommand() {
+  public void enterInvalidCommand() {
     try {
       command.input("INVALID_COMMAND", null);
     } catch (Exception e) {
@@ -32,9 +35,15 @@ public class CommandTest {
   }
 
   @Test
-  void enterCreateCanvasCommand() throws Exception {
+  public void enterNullCommand() throws Exception {
+    assert command.input(null, null) == null;
+  }
+
+  @Test
+  public void enterCreateCanvasCommand() throws Exception {
     String testInput;
     Canvas actualResult;
+
     // Case 1
     testInput = "C 3 4";
     actualResult = command.input(testInput, null);
@@ -66,7 +75,7 @@ public class CommandTest {
   }
 
   @Test
-  void enterLineCommand() throws Exception {
+  public void enterLineCommand() throws Exception {
     // Setup canvas
     String testInput;
     Canvas inputCanvas;
@@ -112,7 +121,7 @@ public class CommandTest {
   }
 
   @Test
-  void enterRectangleCommand() throws Exception {
+  public void enterRectangleCommand() throws Exception {
     // Setup canvas
     String testInput;
     Canvas inputCanvas;
@@ -165,7 +174,7 @@ public class CommandTest {
   }
 
   @Test
-  void enterBucketCommand() throws Exception {
+  public void enterBucketCommand() throws Exception {
     // Setup canvas
     String testInput;
     Canvas inputCanvas;

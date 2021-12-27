@@ -1,3 +1,5 @@
+package ToolTest;
+
 import Dimension.Geometry;
 import Dimension.Point;
 import DrawingTool.Brush;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 
 public class BrushTest {
   @Test
-  void invalidGeometryType() {
+  public void invalidGeometryType() {
     Geometry geometry = new Geometry() {
       @Override
       public ArrayList<Point> getAllPoints() {

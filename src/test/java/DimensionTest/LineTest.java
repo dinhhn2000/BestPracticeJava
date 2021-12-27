@@ -1,3 +1,5 @@
+package DimensionTest;
+
 import Dimension.Line;
 import Dimension.Point;
 import org.junit.jupiter.api.Test;
@@ -5,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 
-class LineTest {
+public class LineTest {
   @Test
-  void initLine() {
+  public void initLine() {
     // Success case
     Point start = new Point(1, 2);
     Point end = new Point(5, 2);
@@ -31,7 +33,7 @@ class LineTest {
   }
 
   @Test
-  void testGetAllPoints() {
+  public void testGetAllPoints() {
     Point start = new Point(1, 1);
     Point end = new Point(1, 10);
     Line line = new Line(start, end);

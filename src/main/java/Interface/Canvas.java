@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Canvas {
-  public static final char EMPTY = ' ';
+  private static final char EMPTY = ' ';
   private char[][] content;
 
   public Canvas(int w, int h) throws Exception {

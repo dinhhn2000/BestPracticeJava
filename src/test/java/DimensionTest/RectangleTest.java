@@ -1,3 +1,5 @@
+package DimensionTest;
+
 import Dimension.Point;
 import Dimension.Rectangle;
 import org.junit.jupiter.api.Test;
@@ -6,9 +8,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.stream.IntStream;
 
-class RectangleTest {
+public class RectangleTest {
   @Test
-  void initRectangle() {
+  public void initRectangle() {
     // Success case
     Point topLeft = new Point(1, 1);
     Point bottomRight = new Point(5, 5);
@@ -33,7 +35,7 @@ class RectangleTest {
   }
 
   @Test
-  void testGetAllPoints() {
+  public void testGetAllPoints() {
     Point topLeft = new Point(1, 1);
     Point bottomRight = new Point(5, 5);
     Rectangle rect = new Rectangle(topLeft, bottomRight);
